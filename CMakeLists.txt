@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.)
+cmake_minimum_required(VERSION 3.13)
 
 project(webbrowser
 		VERSION 1.0.0
@@ -6,13 +6,47 @@ project(webbrowser
 		HOMEPAGE_URL "https://github.com/gbowne1/webbrowser"
 		LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+		include(CTest)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_BUILD_TYPE Debug)
 
-if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+set(IS_OS_WINDOWS FALSE)
+set(IS_OS_LINUX FALSE)
+set(IS_OS_MAC FALSE)
+
 if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+	set(IS_OS_WINDOWS TRUE)
+	message("Building on the Windows operating system.")
+elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+	set(IS_OS_LINUX TRUE)
+	message("Building on the Linux operating system.")
+elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Darwin")
+	set(IS_OS_MAC TRUE)
+	message("Building on the Mac operating system.")
+endif ()
+
 if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+	set(CMAKE_CXX_FLAGS "")
+	set(CMAKE_CXX_FLAGS_DEBUG "")
+	set(CMAKE_CXX_COMPILER /usr/bin/c++)
+	set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+	set(CMAKE_CXX_FLAGS "")
+	set(CMAKE_CXX_FLAGS_DEBUG "")
+	set(CMAKE_CXX_COMPILER cl.exe)
+	set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "BSD")
+    set(CMAKE_CXX_FLAGS "")
+    set(CMAKE_CXX_FLAGS_DEBUG "")
+    set(CMAKE_CXX_COMPILER clang++)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Darwin")
+    set(CMAKE_CXX_FLAGS "")
+    set(CMAKE_CXX_FLAGS_DEBUG "")
+    set(CMAKE_CXX_COMPILER clang++)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+endif()
 
 # Add source files
 set(SOURCES
@@ -54,3 +88,6 @@ add_executable(web_browser ${SOURCES} ${HEADERS})
 
 # Link libraries
 target_link_libraries(web_browser ${LIBRARIES})
+
+# Enable testing
+enable_testing()
