@@ -2,7 +2,8 @@
 
 #include <string>
 
-http_response_t *http_get(const std::string &url)
+
+void http_response_t *http_get(const std::string &url)
 {
 	// Make an HTTP GET request to the specified URL
 	// ...

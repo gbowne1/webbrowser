@@ -29,8 +29,12 @@ endif ()
 if (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
 	set(CMAKE_CXX_FLAGS "")
 	set(CMAKE_CXX_FLAGS_DEBUG "")
+	set(CMAKE_CXX_LINKER /usr/bin/ld)
 	set(CMAKE_CXX_COMPILER /usr/bin/c++)
+	set(CMAKE_EXE_LINKER_FLAGS "")
+	set(CMAKE_VERBOSE_MAKEFILE off)
 	set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+	set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 elseif (${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
 	set(CMAKE_CXX_FLAGS "")
 	set(CMAKE_CXX_FLAGS_DEBUG "")
@@ -86,8 +90,14 @@ link_directories(lib)
 # Add executable
 add_executable(web_browser ${SOURCES} ${HEADERS})
 
+# Add library
+add_library(libhttp SHARED lib/libhttp.h)
+
 # Link libraries
 target_link_libraries(web_browser ${LIBRARIES})
+
+# Set target properties for linker to find
+set_target_properties(lib/libhttp PROPERTIES LINKER_LANGUAGE CXX)
 
 # Enable testing
 enable_testing()

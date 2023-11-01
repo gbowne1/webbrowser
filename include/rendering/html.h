@@ -6,4 +6,6 @@ class HTML {
 	private:
 }
 
-void http_response
+extern void http_response();
+
+#endif HTML_H
