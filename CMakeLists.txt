@@ -97,7 +97,7 @@ add_library(libhttp SHARED lib/libhttp.h)
 target_link_libraries(web_browser ${LIBRARIES})
 
 # Set target properties for linker to find
-set_target_properties(lib/libhttp PROPERTIES LINKER_LANGUAGE CXX)
+
 
 # Enable testing
 enable_testing()
